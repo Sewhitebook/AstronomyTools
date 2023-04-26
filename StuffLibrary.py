@@ -6,6 +6,17 @@ from scipy import constants
 """Calculus"""
 
 #Numerical Differentiation
+def deriv(x, y, xrange): #x, y are the data used to find the derivatives. xrange is the points at which the derivative is desired.
+    slopes = []
+    for i in range(1, len(y)-1):
+        central_diff = (y[i-1] - y[i+1])/(x[i-1] - x[i+1])
+        slopes.append(central_diff)
+
+    interp_deriv = interpolate.interp1d(x[1:-1], slopes, kind="cubic", bounds_error=False, fill_value="extrapolate")
+    derivatives = interp_deriv(xrange)
+    return derivatives
+
+#Secant Method of Differentiating a known function to any desired precision.
 def Sec_Method(func, x_guess, tol, maxiter, h, *func_args):
     x = x_guess
     # tol = 1e-7
